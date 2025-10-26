@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form File</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <!-- <link rel="stylesheet" href="styles/step1.css" /> -->
+  </head>
+  <body>
+    <form class="main-container">
+      <div class="head">
+        <h1>TransGuard QuickApp</h1>
+        <div class="progress-container">
+          <p id="progress-text">1 of 5 complete</p>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper-container">
+        <div class="step active">
+          <div class="circle">✓</div>
+          <p>Let's Get Started</p>
+        </div>
+        <div class="line"></div>
+        <div class="step">
+          <div class="circle">2</div>
+          <p>Step 2</p>
+        </div>
+        <div class="line"></div>
+        <div class="step">
+          <div class="circle">3</div>
+          <p>Step 3</p>
+        </div>
+        <div class="line"></div>
+        <div class="step">
+          <div class="circle">4</div>
+          <p>Step 4</p>
+        </div>
+        <div class="line"></div>
+        <div class="step">
+          <div class="circle">5</div>
+          <p>Step 5</p>
+        </div>
+      </div>
+
+      <div class="target">
+      </div>
+
+      <div class="form-buttons">
+        <button type="button" id="prevBtn" disabled>Back</button>
+        <button type="button" id="nextBtn">Next</button>
+        <button type="button" id="submitBtn" class="hidden">Submit</button>
+      </div>
+    </form>
+
+    <script src="js/snapping.js"></script>
+  </body>
+</html>

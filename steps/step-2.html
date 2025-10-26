@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Step 2 - Personal Information</title>
+    <link rel="stylesheet" href="../styles/step2.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Step 2</h2>
+      <p>Please provide your personal information.</p>
+
+      <form id="personalForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <select id="prefix" title="Prefix">
+              <option value="">Select</option>
+              <option>Mr.</option>
+              <option>Ms.</option>
+              <option>Dr.</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="firstName" required />
+            <label  for="firstName">First Name</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="lastName" required />
+            <label  for="lastName">Last Name</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="middleName" />
+            <label  for="middleName">Middle Name</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="address" required />
+            <label  for="address">Address</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="aptSuite" />
+            <label  for="aptSuite">APT/Suite</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="city" />
+            <label  for="city">City</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="state" />
+            <label  for="state">State</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="zip" />
+            <label  for="zip">Zip</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="motorCarrierName" />
+            <label  for="motorCarrierName">Motor Carrier Name</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="unitNumber" />
+            <label  for="unitNumber">Unit Number</label>
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <p>You are an/a</p>
+          <div class="checkbox-vote">
+          <label class="floating-label"><input type="checkbox" name="role" value="Owner Operator" /> Owner
+            Operator</label
+          >
+          <label class="floating-label"
+            ><input type="checkbox" name="role" value="Fleet Owner" /> Fleet
+            Owner</label
+          >
+          <label 
+            ><input type="checkbox" name="role" value="Fleet Driver" /> Fleet
+            Driver</label
+          >
+        </div>
+        </div>
+
+        <div class="checkbox-group">
+          
+          <p>Do you own your own company?</p>
+        
+        <div class="checkbox-vote">
+          <label><input type="radio" name="company" value="Yes" /> Yes</label>
+          <label
+            ><input type="radio" name="company" value="No" checked /> No</label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,202 @@
+/* ===== Target Container Styles ===== */
+.target {
+  margin: 20px 20px;
+  padding: 80px;
+  border-radius: 8px;
+}
+
+.target h2 {
+  color: #2c4373;
+  margin-top: 0;
+}
+
+.target p {
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ===== Step 1 Header Styles ===== */
+.step-1-header {
+  display: flex;
+  justify-content: center;
+  color: #2c4373;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  font-size: 50px;
+}
+
+.step-1-text {
+  display: flex;
+  justify-content: center;
+  color: #2c4373;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+/* ===== Form Container ===== */
+.form-container {
+  margin: 85px;
+  text-align: center;
+}
+
+/* ===== Form Input Styles ===== */
+label {
+  display: block;
+  font-weight: 700;
+  color: #1f3b73;
+  margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #cce0eb;
+  border-radius: 5px;
+  background-color: #f1f8fb;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #1f3b73;
+}
+
+
+
+input:invalid:focus,
+select:invalid:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 4px rgba(231, 76, 60, 0.4);
+}
+
+input:invalid + .error,
+select:invalid + .error {
+  color: #e74c3c;
+  font-size: 0.9rem;
+}
+
+/* ===== Required Text ===== */
+input:invalid ~ .required-text,
+select:invalid ~ .required-text {
+  display: block;
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 3px;
+}
+
+.required-text {
+  display: block;
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 3px;
+  margin-bottom: 15px;
+}
+
+/* ===== Form Group and Layout ===== */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group.half {
+  flex: 1;
+}
+
+/* ===== Phone Input Styling ===== */
+.phone-input {
+  display: flex;
+  flex-direction: row;
+  gap: 8rem;
+}
+
+.phone-input .input-container {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+/* ===== Checkbox Group ===== */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  color: #2a3c50;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0073e6;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* ===== Floating Label Styles ===== */
+.input-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-container input,
+.input-container select {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #cfd9e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #f8fbff;
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.input-container input:focus,
+.input-container select:focus {
+  border-color: #0073e6;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
+}
+
+/* ===== CDL State Specific Styling ===== */
+#cdlState {
+  display: flex;
+}
+
+/* ===== Other Input Field ===== */
+.other-input {
+  padding: 0.7rem 1rem;
+  border: 2px solid #cfd9e0;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  background-color: #f8fbff;
+  width: 120px;
+  outline: none;
+  transition: all 0.2s ease;
+  display: none; /* Hidden by default */
+  margin-left: 0.5rem;
+}
+
+.other-input:focus {
+  border-color: #0073e6;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 115, 230, 0.1);
+}
