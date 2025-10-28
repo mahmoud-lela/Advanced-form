@@ -10,130 +10,154 @@
   <div class="form-container">
     <h2>Step 3</h2>
     <p>What coverage(s) would you like to apply for?</p>
-
     <form id="coverageForm">
       <div class="checkbox-list">
         <label>
-          <input type="checkbox" name="coverage" value="Occupational Accident" checked>
+          <input type="checkbox" id="occupationalAccident" name="coverage" value="Occupational Accident">
           Occupational Accident
         </label>
         <label>
-          <input type="checkbox" name="coverage" value="Physical Damage">
+          <input type="checkbox" id="physicalDamage" name="coverage" value="Physical Damage">
           Physical Damage
         </label>
         <label>
-          <input type="checkbox" name="coverage" value="Non-Trucking Liability">
+          <input type="checkbox" id="nonTruckingLiability" name="coverage" value="Non-Trucking Liability">
           Non-Trucking Liability
         </label>
         <label>
-          <input type="checkbox" name="coverage" value="Workers Compensation">
+          <input type="checkbox" id="workersCompensation" name="coverage" value="Workers Compensation">
           Workers Compensation
         </label>
         <label>
-          <input type="checkbox" name="coverage" value="Occupational Compensation">
+          <input type="checkbox" id="occupationalCompensation" name="coverage" value="Occupational Compensation">
           Occupational Compensation
         </label>
       </div>
     </form>
   </div>
 
-  <!-- Include JavaScript files -->
-  <script src="../js/snapping.js"></script>
-  <script src="../js/required.js"></script>
   <script>
-    // Step 3 specific functionality
+    // Step 3 - Enhanced ID-based coverage selection for main navigation
     document.addEventListener('DOMContentLoaded', function() {
-      setupCoverageSelection();
-      loadPreviousCoverageSelections();
+      initializeCoverageSelection();
+      loadPreviousSelection();
     });
 
-    function setupCoverageSelection() {
+    function initializeCoverageSelection() {
       const checkboxes = document.querySelectorAll('input[name="coverage"]');
-      
-      checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          saveCoverageSelections();
+
+      // Allow only one checkbox to be checked at a time
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+          if (this.checked) {
+            // Uncheck all other checkboxes
+            checkboxes.forEach(other => {
+              if (other !== this) other.checked = false;
+            });
+            
+            // Save the selected ID immediately using multiple methods
+            saveSelectedCoverage(this.id);
+            console.log(`✅ Selected coverage: ${this.id}`);
+          } else {
+            // If unchecked, clear the selection
+            clearSelectedCoverage();
+            console.log('❌ Coverage selection cleared');
+          }
         });
       });
     }
 
-    function saveCoverageSelections() {
-      const checkboxes = document.querySelectorAll('input[name="coverage"]:checked');
-      const selectedCoverages = Array.from(checkboxes).map(cb => cb.value);
+    function saveSelectedCoverage(checkboxId) {
+      // Method 1: Save to localStorage for Step 4
+      localStorage.setItem('selectedCoverage', checkboxId);
       
-      // Save to current step data
-      if (typeof saveCurrentStepData === 'function') {
-        // First save individual checkbox states
-        const allCheckboxes = document.querySelectorAll('input[name="coverage"]');
-        allCheckboxes.forEach(cb => {
-          const fieldName = cb.value.replace(/\s+/g, '');
-          if (typeof formData !== 'undefined' && formData.step3) {
-            formData.step3[fieldName] = cb.checked;
+      // Method 2: Save to formData for main navigation compatibility
+      if (typeof formData !== 'undefined') {
+        if (!formData.step3) formData.step3 = {};
+        formData.step3.selectedCoverageId = checkboxId;
+        formData.step3.selectedCoverageValue = document.getElementById(checkboxId).value;
+        
+        // Also save checkbox states individually for snapping.js compatibility
+        formData.step3[checkboxId] = true;
+        
+        // Clear other checkbox states
+        const allCheckboxes = ['occupationalAccident', 'physicalDamage', 'nonTruckingLiability', 'workersCompensation', 'occupationalCompensation'];
+        allCheckboxes.forEach(id => {
+          if (id !== checkboxId) {
+            formData.step3[id] = false;
           }
         });
-        
-        // Then save the coverage array
-        if (typeof formData !== 'undefined' && formData.step3) {
-          formData.step3.coverage = selectedCoverages;
-        }
-        
+      }
+      
+      // Method 3: Make globally accessible
+      window.selectedCoverageId = checkboxId;
+      
+      // Method 4: Trigger main navigation save if available
+      if (typeof saveCurrentStepData === 'function') {
         saveCurrentStepData(3);
       }
-      
-      console.log('Selected coverages saved:', selectedCoverages);
     }
 
-    function loadPreviousCoverageSelections() {
-      // Try to load previous selections
-      const step3Data = getStepData ? getStepData(3) : {};
+    function clearSelectedCoverage() {
+      localStorage.removeItem('selectedCoverage');
       
-      if (step3Data.coverage && step3Data.coverage.length > 0) {
-        const checkboxes = document.querySelectorAll('input[name="coverage"]');
+      if (typeof formData !== 'undefined' && formData.step3) {
+        delete formData.step3.selectedCoverageId;
+        delete formData.step3.selectedCoverageValue;
         
-        // First uncheck all
-        checkboxes.forEach(cb => cb.checked = false);
-        
-        // Then check the saved selections
-        step3Data.coverage.forEach(coverage => {
-          const checkbox = document.querySelector(`input[name="coverage"][value="${coverage}"]`);
-          if (checkbox) {
-            checkbox.checked = true;
-          }
+        // Clear all checkbox states
+        const allCheckboxes = ['occupationalAccident', 'physicalDamage', 'nonTruckingLiability', 'workersCompensation', 'occupationalCompensation'];
+        allCheckboxes.forEach(id => {
+          formData.step3[id] = false;
         });
-      } else {
-        // Load individual checkbox states if coverage array doesn't exist
-        const checkboxes = document.querySelectorAll('input[name="coverage"]');
-        checkboxes.forEach(cb => {
-          const fieldName = cb.value.replace(/\s+/g, '');
-          if (step3Data[fieldName] !== undefined) {
-            cb.checked = step3Data[fieldName];
-          }
-        });
+      }
+      
+      window.selectedCoverageId = null;
+      
+      if (typeof saveCurrentStepData === 'function') {
+        saveCurrentStepData(3);
       }
     }
 
-    // Function to get step data (fallback if not available from snapping.js)
-    function getStepData(stepNumber) {
-      if (typeof window !== 'undefined' && window.formData) {
-        return window.formData[`step${stepNumber}`] || {};
-      }
+    function loadPreviousSelection() {
+      // Try multiple sources to restore selection
+      const savedId = localStorage.getItem('selectedCoverage') || 
+                     (window.formData?.step3?.selectedCoverageId) ||
+                     window.selectedCoverageId;
       
-      if (typeof formData !== 'undefined') {
-        return formData[`step${stepNumber}`] || {};
-      }
-      
-      try {
-        const savedData = localStorage.getItem('advancedFormData');
-        if (savedData) {
-          const parsedData = JSON.parse(savedData);
-          return parsedData[`step${stepNumber}`] || {};
+      if (savedId) {
+        const checkbox = document.getElementById(savedId);
+        if (checkbox) {
+          checkbox.checked = true;
+          console.log(`🔄 Restored coverage selection: ${savedId}`);
         }
-      } catch (error) {
-        console.error('Error getting step data:', error);
+      }
+    }
+
+    // Enhanced validation function for main navigation
+    window.validateStep3 = function() {
+      const selected = document.querySelector('input[name="coverage"]:checked');
+      
+      if (!selected) {
+        alert('Please select one coverage option before continuing!');
+        return false;
       }
       
-      return {};
-    }
+      // Ensure data is saved before validation passes
+      saveSelectedCoverage(selected.id);
+      console.log(`✅ Step 3 validation passed with: ${selected.id}`);
+      return true;
+    };
+
+    // Expose debug functions
+    window.debugStep3 = {
+      saveSelectedCoverage,
+      clearSelectedCoverage,
+      loadPreviousSelection,
+      getCurrentSelection: () => document.querySelector('input[name="coverage"]:checked')?.id,
+      getFormData: () => window.formData?.step3
+    };
   </script>
+
 </body>
 </html>

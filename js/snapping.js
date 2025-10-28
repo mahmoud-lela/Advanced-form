@@ -41,14 +41,19 @@ function saveCurrentStepData(stepNumber) {
   
   inputs.forEach(input => {
     if (input.type === 'checkbox') {
-      // Special handling for Step 3 coverage checkboxes
-      if (input.name === 'coverage') {
+      // Special handling for Step 3 coverage checkboxes with IDs
+      if (input.name === 'coverage' && input.id) {
+        // Save by ID for direct access
+        currentStepData[input.id] = input.checked;
+        
+        // Build coverage array
         if (!currentStepData.coverage) {
           currentStepData.coverage = [];
         }
         if (input.checked) {
           currentStepData.coverage.push(input.value);
         }
+        
         // Also save individual checkbox states for backward compatibility
         const fieldName = input.value.replace(/\s+/g, '');
         currentStepData[fieldName] = input.checked;
@@ -87,6 +92,28 @@ function saveCurrentStepData(stepNumber) {
       }
     }
   });
+  
+  // Persist selected coverage ID for Step 3 (single or first true)
+  if (stepNumber === 3) {
+    const coverageIds = [
+      'occupationalAccident',
+      'physicalDamage',
+      'nonTruckingLiability',
+      'workersCompensation',
+      'occupationalCompensation'
+    ];
+    const selectedIds = coverageIds.filter(id => currentStepData[id] === true);
+    if (selectedIds.length === 1) {
+      currentStepData.selectedCoverageId = selectedIds[0];
+      try { localStorage.setItem('selectedCoverage', selectedIds[0]); } catch (_) {}
+      window.selectedCoverageId = selectedIds[0];
+    } else {
+      // If none or multiple, clear the single-selection helpers
+      delete currentStepData.selectedCoverageId;
+      try { localStorage.removeItem('selectedCoverage'); } catch (_) {}
+      window.selectedCoverageId = null;
+    }
+  }
   
   // Save to the global formData object
   formData[`step${stepNumber}`] = currentStepData;
@@ -192,6 +219,13 @@ function loadSnippet(number) {
                         setupStep5SubmitValidationDirect();
                     }
                 }, 300);
+            }
+            
+            // Ensure Step 4 shows the selected coverage details
+            if (number === 4) {
+              setTimeout(() => {
+                try { showStep4Coverage(); } catch (e) { console.warn('showStep4Coverage failed:', e); }
+              }, 150);
             }
             
             loadStepData(number);
@@ -430,6 +464,56 @@ function triggerConditionalFields() {
   });
 }
 
+// STEP 4 - SHOW COVERAGE DETAILS BASED ON STEP 3 STATE
+function showStep4Coverage() {
+  console.log('Rendering Step 4 coverage details from saved Step 3 state...');
+  const sections = document.querySelectorAll('[id$="-data"]');
+  sections.forEach(el => {
+    el.classList.remove('selected-coverage');
+    el.setAttribute('hidden', '');
+    el.style.display = '';
+  });
+
+  const step3 = getStepData(3) || {};
+  const ids = [
+    'occupationalAccident',
+    'physicalDamage',
+    'nonTruckingLiability',
+    'workersCompensation',
+    'occupationalCompensation'
+  ];
+
+  let toShow = [];
+  if (step3.selectedCoverageId) {
+    toShow = [step3.selectedCoverageId];
+  } else {
+    ids.forEach(id => { if (step3[id] === true) toShow.push(id); });
+  }
+  if (toShow.length === 0) {
+    try {
+      const localSelected = localStorage.getItem('selectedCoverage');
+      if (localSelected) toShow = [localSelected];
+    } catch (_) {}
+  }
+
+  if (toShow.length > 0) {
+    toShow.forEach(id => {
+      const el = document.getElementById(id + '-data');
+      if (el) {
+        el.removeAttribute('hidden');
+        el.style.display = '';
+        el.classList.add('selected-coverage');
+      }
+    });
+  } else {
+    const summaryNote = document.querySelector('.summary-note');
+    if (summaryNote) {
+      summaryNote.innerHTML = 'No coverage selection found. Please go back to Step 3 to select a coverage type.';
+      summaryNote.style.color = '#ff6b6b';
+    }
+  }
+}
+
 // STEP 5 FALLBACK FUNCTIONS
 
 function populateStep5FieldsDirect() {
@@ -647,8 +731,26 @@ function setupBeforeUnloadSave() {
 
 if (nextBtn) {
   nextBtn.addEventListener('click', () => {
-    // Validate required fields before moving to next step
-    if (typeof validateRequiredFields === 'function' && !validateRequiredFields()) {
+    // Step-specific validation before moving to next step
+    let canProceed = true;
+    
+    if (currentStep === 3) {
+      // Validate Step 3 coverage selection
+      if (typeof window.validateStep3 === 'function') {
+        canProceed = window.validateStep3();
+      } else {
+        // Fallback validation for Step 3
+        const selected = document.querySelector('input[name="coverage"]:checked');
+        if (!selected) {
+          alert('Please select one coverage option before continuing!');
+          canProceed = false;
+        }
+      }
+    } else if (typeof validateRequiredFields === 'function' && !validateRequiredFields()) {
+      canProceed = false;
+    }
+    
+    if (!canProceed) {
       return; // Don't proceed if validation fails
     }
     
