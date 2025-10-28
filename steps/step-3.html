@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Step 3 - Coverage Selection</title>
-  <link rel="stylesheet" href="/styles/step3.css" />
+  <link rel="stylesheet" href="styles/step3.css" />
   </head>
 <body>
   <div class="form-container">
@@ -37,6 +37,103 @@
     </form>
   </div>
 
+  <!-- Include JavaScript files -->
+  <script src="../js/snapping.js"></script>
+  <script src="../js/required.js"></script>
+  <script>
+    // Step 3 specific functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      setupCoverageSelection();
+      loadPreviousCoverageSelections();
+    });
 
+    function setupCoverageSelection() {
+      const checkboxes = document.querySelectorAll('input[name="coverage"]');
+      
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          saveCoverageSelections();
+        });
+      });
+    }
+
+    function saveCoverageSelections() {
+      const checkboxes = document.querySelectorAll('input[name="coverage"]:checked');
+      const selectedCoverages = Array.from(checkboxes).map(cb => cb.value);
+      
+      // Save to current step data
+      if (typeof saveCurrentStepData === 'function') {
+        // First save individual checkbox states
+        const allCheckboxes = document.querySelectorAll('input[name="coverage"]');
+        allCheckboxes.forEach(cb => {
+          const fieldName = cb.value.replace(/\s+/g, '');
+          if (typeof formData !== 'undefined' && formData.step3) {
+            formData.step3[fieldName] = cb.checked;
+          }
+        });
+        
+        // Then save the coverage array
+        if (typeof formData !== 'undefined' && formData.step3) {
+          formData.step3.coverage = selectedCoverages;
+        }
+        
+        saveCurrentStepData(3);
+      }
+      
+      console.log('Selected coverages saved:', selectedCoverages);
+    }
+
+    function loadPreviousCoverageSelections() {
+      // Try to load previous selections
+      const step3Data = getStepData ? getStepData(3) : {};
+      
+      if (step3Data.coverage && step3Data.coverage.length > 0) {
+        const checkboxes = document.querySelectorAll('input[name="coverage"]');
+        
+        // First uncheck all
+        checkboxes.forEach(cb => cb.checked = false);
+        
+        // Then check the saved selections
+        step3Data.coverage.forEach(coverage => {
+          const checkbox = document.querySelector(`input[name="coverage"][value="${coverage}"]`);
+          if (checkbox) {
+            checkbox.checked = true;
+          }
+        });
+      } else {
+        // Load individual checkbox states if coverage array doesn't exist
+        const checkboxes = document.querySelectorAll('input[name="coverage"]');
+        checkboxes.forEach(cb => {
+          const fieldName = cb.value.replace(/\s+/g, '');
+          if (step3Data[fieldName] !== undefined) {
+            cb.checked = step3Data[fieldName];
+          }
+        });
+      }
+    }
+
+    // Function to get step data (fallback if not available from snapping.js)
+    function getStepData(stepNumber) {
+      if (typeof window !== 'undefined' && window.formData) {
+        return window.formData[`step${stepNumber}`] || {};
+      }
+      
+      if (typeof formData !== 'undefined') {
+        return formData[`step${stepNumber}`] || {};
+      }
+      
+      try {
+        const savedData = localStorage.getItem('advancedFormData');
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          return parsedData[`step${stepNumber}`] || {};
+        }
+      } catch (error) {
+        console.error('Error getting step data:', error);
+      }
+      
+      return {};
+    }
+  </script>
 </body>
 </html>

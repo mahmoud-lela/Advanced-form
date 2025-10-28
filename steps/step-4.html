@@ -4,41 +4,313 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Step 4 - Additional Information</title>
-  <link rel="stylesheet" href="/styles/step4.css" />
+  <link rel="stylesheet" href="styles/step4.css" />
 </head>
 <body>
   <div class="form-container">
     <h2>Step 4</h2>
     <p>Additional information and requirements.</p>
     
-    <form id="additionalForm">
-      <div class="form-group">
-        <label for="experience">Years of driving experience:</label>
-        <select id="experience" name="experience" required>
-          <option value="">Select years</option>
-          <option value="0-2">0-2 years</option>
-          <option value="3-5">3-5 years</option>
-          <option value="6-10">6-10 years</option>
-          <option value="10+">10+ years</option>
-        </select>
+    <!-- Coverage Selection Summary -->
+    <div class="coverage-summary">
+      <h3>Your Selected Coverage Types</h3>
+      <p class="summary-note">Based on your selections from Step 3, here's what you've chosen:</p>
+      
+      <div id="selectedCoverages" class="coverage-grid">
+        <!-- Coverage items will be populated by JavaScript -->
       </div>
       
-      <div class="form-group">
-        <label for="violations">Any moving violations in the last 3 years?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="violations" value="yes"> Yes</label>
-          <label><input type="radio" name="violations" value="no" checked> No</label>
+      <div class="coverage-info" id="coverageInfo" style="display: none;">
+        <h4>Coverage Information</h4>
+        
+        <div class="coverage-details">
+          <div class="coverage-item" data-coverage="Occupational Accident" style="display: none;">
+            <h5>Occupational Accident Insurance</h5>
+            <p>Provides medical expense coverage and disability benefits for work-related injuries that occur while operating your commercial vehicle. This coverage helps protect you when you're injured on the job, covering medical bills, lost wages, and rehabilitation costs.</p>
+            <ul>
+              <li>Medical expenses up to policy limits</li>
+              <li>Temporary total disability benefits</li>
+              <li>Permanent partial disability coverage</li>
+              <li>Accidental death and dismemberment benefits</li>
+            </ul>
+          </div>
+
+          <div class="coverage-item" data-coverage="Physical Damage" style="display: none;">
+            <h5>Physical Damage Coverage</h5>
+            <p>Protects your commercial vehicle against physical damage from collisions, comprehensive losses, and other covered perils. This includes damage to your truck, trailer, and attached equipment.</p>
+            <ul>
+              <li>Collision coverage for accidents</li>
+              <li>Comprehensive coverage for theft, vandalism, weather</li>
+              <li>Coverage for attached equipment and tools</li>
+              <li>Towing and labor costs</li>
+            </ul>
+          </div>
+
+          <div class="coverage-item" data-coverage="Non-Trucking Liability" style="display: none;">
+            <h5>Non-Trucking Liability (Bobtail)</h5>
+            <p>Provides liability protection when you're operating your commercial vehicle for non-business purposes or when not under dispatch. This coverage fills the gap when your motor carrier's insurance doesn't apply.</p>
+            <ul>
+              <li>Bodily injury liability coverage</li>
+              <li>Property damage liability coverage</li>
+              <li>Protection during personal use of truck</li>
+              <li>Coverage between loads or off-duty</li>
+            </ul>
+          </div>
+
+          <div class="coverage-item" data-coverage="Workers Compensation" style="display: none;">
+            <h5>Workers Compensation</h5>
+            <p>Required by law in most states, this coverage provides benefits to employees who are injured or become ill due to work-related activities. It covers medical expenses and wage replacement for covered injuries.</p>
+            <ul>
+              <li>Medical expense coverage for work injuries</li>
+              <li>Wage replacement benefits</li>
+              <li>Vocational rehabilitation services</li>
+              <li>Death benefits for beneficiaries</li>
+            </ul>
+          </div>
+
+          <div class="coverage-item" data-coverage="Occupational Compensation" style="display: none;">
+            <h5>Occupational Compensation</h5>
+            <p>An alternative to traditional workers compensation for independent contractors and owner-operators. Provides similar benefits but designed specifically for the trucking industry's unique needs.</p>
+            <ul>
+              <li>Medical benefits for occupational injuries</li>
+              <li>Disability income protection</li>
+              <li>Flexible coverage options for contractors</li>
+              <li>Industry-specific benefit structures</li>
+            </ul>
+          </div>
         </div>
       </div>
-      
-      <div class="form-group">
-        <label for="accidents">Any accidents in the last 5 years?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="accidents" value="yes"> Yes</label>
-          <label><input type="radio" name="accidents" value="no" checked> No</label>
-        </div>
-      </div>
-    </form>
+    </div>
+    
+
   </div>
+
+  <!-- Include JavaScript files -->
+  <script src="../js/snapping.js"></script>
+  <script src="../js/required.js"></script>
+  <script>
+    // Step 4 specific functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      displaySelectedCoverages();
+      setupCoverageSpecificQuestions();
+    });
+
+    function displaySelectedCoverages() {
+      console.log('Loading coverage data for Step 4...');
+      
+      // Get Step 3 data with multiple fallback methods
+      let step3Data = {};
+      
+      // Method 1: Try global formData
+      if (typeof window !== 'undefined' && window.formData && window.formData.step3) {
+        step3Data = window.formData.step3;
+        console.log('Loaded from window.formData:', step3Data);
+      } 
+      // Method 2: Try local formData
+      else if (typeof formData !== 'undefined' && formData.step3) {
+        step3Data = formData.step3;
+        console.log('Loaded from formData:', step3Data);
+      }
+      // Method 3: Try localStorage
+      else {
+        try {
+          const savedData = localStorage.getItem('advancedFormData');
+          if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            step3Data = parsedData.step3 || {};
+            console.log('Loaded from localStorage:', step3Data);
+          }
+        } catch (error) {
+          console.error('Error loading from localStorage:', error);
+        }
+      }
+      
+      // Extract selected coverages
+      let selectedCoverages = [];
+      
+      // Method A: Check for coverage array
+      if (step3Data.coverage && Array.isArray(step3Data.coverage)) {
+        selectedCoverages = step3Data.coverage;
+      }
+      // Method B: Build from individual checkbox states
+      else {
+        const coverageTypes = [
+          'Occupational Accident',
+          'Physical Damage', 
+          'Non-Trucking Liability',
+          'Workers Compensation',
+          'Occupational Compensation'
+        ];
+        
+        coverageTypes.forEach(coverage => {
+          const fieldName = coverage.replace(/\s+/g, '');
+          if (step3Data[fieldName] === true) {
+            selectedCoverages.push(coverage);
+          }
+        });
+      }
+      
+      console.log('Final selected coverages:', selectedCoverages);
+      
+      const coverageContainer = document.getElementById('selectedCoverages');
+      
+      if (selectedCoverages.length === 0) {
+        coverageContainer.innerHTML = '<p class="no-coverage">No coverages selected. Please return to Step 3 to select your desired coverage options.</p>';
+        return;
+      }
+
+      // Create coverage summary cards
+      let coverageHTML = '';
+      selectedCoverages.forEach(coverage => {
+        coverageHTML += `
+          <div class="selected-coverage-card">
+            <div class="coverage-icon">✓</div>
+            <div class="coverage-name">${coverage}</div>
+          </div>
+        `;
+      });
+      
+      coverageContainer.innerHTML = coverageHTML;
+
+      // Show/hide detailed information based on selections
+      const coverageInfoSection = document.getElementById('coverageInfo');
+      const allCoverageItems = document.querySelectorAll('.coverage-item');
+      
+      if (selectedCoverages.length > 0) {
+        // Show the coverage info section if any coverages are selected
+        coverageInfoSection.style.display = 'block';
+        
+        allCoverageItems.forEach(item => {
+          const coverage = item.dataset.coverage;
+          if (selectedCoverages.includes(coverage)) {
+            item.style.display = 'block';
+            item.classList.add('selected');
+          } else {
+            item.style.display = 'none';
+            item.classList.remove('selected');
+          }
+        });
+      } else {
+        // Hide the entire coverage info section if no coverages are selected
+        coverageInfoSection.style.display = 'none';
+        
+        allCoverageItems.forEach(item => {
+          item.style.display = 'none';
+          item.classList.remove('selected');
+        });
+      }
+    }
+
+    function setupCoverageSpecificQuestions() {
+      console.log('Setting up coverage-specific questions...');
+      
+      // Get Step 3 data with multiple fallback methods
+      let step3Data = {};
+      
+      if (typeof window !== 'undefined' && window.formData && window.formData.step3) {
+        step3Data = window.formData.step3;
+      } else if (typeof formData !== 'undefined' && formData.step3) {
+        step3Data = formData.step3;
+      } else {
+        try {
+          const savedData = localStorage.getItem('advancedFormData');
+          if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            step3Data = parsedData.step3 || {};
+          }
+        } catch (error) {
+          console.error('Error loading from localStorage:', error);
+        }
+      }
+      
+      // Extract selected coverages
+      let selectedCoverages = [];
+      
+      if (step3Data.coverage && Array.isArray(step3Data.coverage)) {
+        selectedCoverages = step3Data.coverage;
+      } else {
+        const coverageTypes = [
+          'Occupational Accident',
+          'Physical Damage', 
+          'Non-Trucking Liability',
+          'Workers Compensation',
+          'Occupational Compensation'
+        ];
+        
+        coverageTypes.forEach(coverage => {
+          const fieldName = coverage.replace(/\s+/g, '');
+          if (step3Data[fieldName] === true) {
+            selectedCoverages.push(coverage);
+          }
+        });
+      }
+      
+      const questionsContainer = document.getElementById('coverageSpecificQuestions');
+      
+      let questionsHTML = '';
+
+      // Add specific questions based on selected coverages
+      if (selectedCoverages.includes('Physical Damage')) {
+        questionsHTML += `
+          <div class="form-group coverage-question" data-coverage="Physical Damage">
+            <label for="vehicleValue">Estimated value of your vehicle:</label>
+            <select id="vehicleValue" name="vehicleValue">
+              <option value="">Select value range</option>
+              <option value="under-50k">Under $50,000</option>
+              <option value="50k-100k">$50,000 - $100,000</option>
+              <option value="100k-150k">$100,000 - $150,000</option>
+              <option value="over-150k">Over $150,000</option>
+            </select>
+          </div>
+          
+          <div class="form-group coverage-question" data-coverage="Physical Damage">
+            <label for="deductiblePreference">Preferred deductible amount:</label>
+            <select id="deductiblePreference" name="deductiblePreference">
+              <option value="">Select deductible</option>
+              <option value="500">$500</option>
+              <option value="1000">$1,000</option>
+              <option value="2500">$2,500</option>
+              <option value="5000">$5,000</option>
+            </select>
+          </div>
+        `;
+      }
+
+      if (selectedCoverages.includes('Occupational Accident') || selectedCoverages.includes('Workers Compensation') || selectedCoverages.includes('Occupational Compensation')) {
+        questionsHTML += `
+          <div class="form-group coverage-question" data-coverage="Medical Coverage">
+            <label for="medicalHistory">Any pre-existing medical conditions?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="medicalHistory" value="yes"> Yes</label>
+              <label><input type="radio" name="medicalHistory" value="no" checked> No</label>
+            </div>
+          </div>
+        `;
+      }
+
+      if (selectedCoverages.includes('Non-Trucking Liability')) {
+        questionsHTML += `
+          <div class="form-group coverage-question" data-coverage="Non-Trucking Liability">
+            <label for="personalUse">How often do you use your truck for personal purposes?</label>
+            <select id="personalUse" name="personalUse">
+              <option value="">Select frequency</option>
+              <option value="rarely">Rarely (less than 5% of time)</option>
+              <option value="occasionally">Occasionally (5-15% of time)</option>
+              <option value="regularly">Regularly (15-30% of time)</option>
+              <option value="frequently">Frequently (more than 30% of time)</option>
+            </select>
+          </div>
+        `;
+      }
+
+      if (questionsHTML) {
+        questionsHTML = '<h4>Coverage-Specific Questions</h4>' + questionsHTML;
+      }
+
+      questionsContainer.innerHTML = questionsHTML;
+      
+      console.log('Coverage-specific questions generated for:', selectedCoverages);
+    }
+  </script>
 </body>
 </html>

@@ -41,20 +41,33 @@ function saveCurrentStepData(stepNumber) {
   
   inputs.forEach(input => {
     if (input.type === 'checkbox') {
-      // For checkboxes, save the checked state and value
-      if (input.name) {
-        if (!currentStepData[input.name]) {
-          currentStepData[input.name] = [];
+      // Special handling for Step 3 coverage checkboxes
+      if (input.name === 'coverage') {
+        if (!currentStepData.coverage) {
+          currentStepData.coverage = [];
         }
         if (input.checked) {
-          currentStepData[input.name].push(input.value);
+          currentStepData.coverage.push(input.value);
         }
-        // Also save the checkbox state individually by ID if it has one
-        if (input.id) {
+        // Also save individual checkbox states for backward compatibility
+        const fieldName = input.value.replace(/\s+/g, '');
+        currentStepData[fieldName] = input.checked;
+      } else {
+        // For other checkboxes, save the checked state and value
+        if (input.name) {
+          if (!currentStepData[input.name]) {
+            currentStepData[input.name] = [];
+          }
+          if (input.checked) {
+            currentStepData[input.name].push(input.value);
+          }
+          // Also save the checkbox state individually by ID if it has one
+          if (input.id) {
+            currentStepData[input.id] = input.checked;
+          }
+        } else if (input.id) {
           currentStepData[input.id] = input.checked;
         }
-      } else if (input.id) {
-        currentStepData[input.id] = input.checked;
       }
     } else if (input.type === 'radio') {
       // For radio buttons, save the selected value for the group
@@ -89,6 +102,9 @@ function saveCurrentStepData(stepNumber) {
   
   // Save to localStorage for persistence across navigation
   localStorage.setItem(STORAGE_KEY, JSON.stringify(dataWithTimestamp));
+  
+  // Make formData globally accessible
+  window.formData = formData;
 }
 
 // Enhanced function to load form data with better error handling
@@ -264,6 +280,31 @@ function setupCheckboxGroups() {
       });
     });
   });
+  
+  // Setup Step 3 coverage checkboxes specifically
+  setupStep3CoverageCheckboxes();
+}
+
+// New function to handle Step 3 coverage checkboxes
+function setupStep3CoverageCheckboxes() {
+  const coverageCheckboxes = document.querySelectorAll('input[name="coverage"]');
+  
+  if (coverageCheckboxes.length > 0) {
+    console.log('Setting up Step 3 coverage checkboxes...');
+    
+    coverageCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        console.log(`Coverage checkbox changed: ${this.value} = ${this.checked}`);
+        
+        // Save data immediately when coverage selection changes
+        saveCurrentStepData(3);
+        
+        // Log current coverage selections
+        const selectedCoverages = Array.from(document.querySelectorAll('input[name="coverage"]:checked')).map(cb => cb.value);
+        console.log('Currently selected coverages:', selectedCoverages);
+      });
+    });
+  }
 }
 
 function setupStep2Functionality() {

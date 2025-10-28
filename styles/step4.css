@@ -57,6 +57,7 @@ select, input {
   background-color: #f8fbff;
   color: #2c4373;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 select:focus, input:focus {
@@ -64,6 +65,7 @@ select:focus, input:focus {
   box-shadow: 0 0 0 3px rgba(44, 67, 115, 0.1);
   outline: none;
   background-color: #fff;
+  transform: translateY(-1px);
 }
 
 .radio-group {
@@ -78,6 +80,13 @@ select:focus, input:focus {
   gap: 8px;
   font-weight: 500;
   cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.radio-group label:hover {
+  background-color: #f0f9ff;
 }
 
 .radio-group input[type="radio"] {
@@ -85,7 +94,186 @@ select:focus, input:focus {
   height: 18px;
   accent-color: #2c4373;
   cursor: pointer;
+  margin: 0;
 }
+
+/* ===== Coverage Summary Styling ===== */
+.coverage-summary {
+  margin-bottom: 40px;
+  padding: 25px;
+  background: linear-gradient(135deg, #f8fbff 0%, #e3f2fd 100%);
+  border-radius: 12px;
+  border: 2px solid #e3f2fd;
+}
+
+.coverage-summary h3 {
+  color: #2c4373;
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.summary-note {
+  text-align: center;
+  color: #555;
+  margin-bottom: 25px;
+  font-style: italic;
+}
+
+.coverage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.selected-coverage-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #27ae60;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.selected-coverage-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.coverage-icon {
+  width: 32px;
+  height: 32px;
+  background: #27ae60;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.coverage-name {
+  font-weight: 600;
+  color: #2c4373;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.no-coverage {
+  text-align: center;
+  color: #e74c3c;
+  font-weight: 500;
+  padding: 20px;
+  background: #fdf2f2;
+  border-radius: 8px;
+  border: 2px solid #e74c3c;
+}
+
+/* ===== Coverage Information Styling ===== */
+.coverage-info {
+  margin-top: 30px;
+}
+
+.coverage-info h4 {
+  color: #2c4373;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e3f2fd;
+}
+
+.coverage-details {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.coverage-item {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.coverage-item.selected {
+  border-color: #2c4373;
+  box-shadow: 0 4px 12px rgba(44, 67, 115, 0.15);
+  transform: translateY(-1px);
+}
+
+.coverage-item h5 {
+  color: #2c4373;
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.coverage-item p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.coverage-item ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #666;
+}
+
+.coverage-item li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+/* ===== Coverage-Specific Questions Styling ===== */
+#coverageSpecificQuestions {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 3px solid #e3f2fd;
+}
+
+#coverageSpecificQuestions h4 {
+  color: #2c4373;
+  font-size: 20px;
+  margin-bottom: 25px;
+  text-align: center;
+  padding: 15px;
+  background: linear-gradient(135deg, #f0f9ff, #e3f2fd);
+  border-radius: 8px;
+}
+
+.coverage-question {
+  position: relative;
+  padding: 20px;
+  background: #f8fbff;
+  border-radius: 8px;
+  border-left: 4px solid #2c4373;
+  margin-bottom: 20px;
+}
+
+.coverage-question::before {
+  content: attr(data-coverage);
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: #2c4373;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 /* ===== TABLET RESPONSIVE DESIGN (max-width: 1200px) ===== */
 @media (max-width: 1200px) {
   body {
@@ -107,6 +295,48 @@ select:focus, input:focus {
   p {
     font-size: 17px;
     margin-bottom: 25px;
+  }
+
+  .coverage-summary {
+    padding: 20px;
+    margin-bottom: 35px;
+  }
+
+  .coverage-summary h3 {
+    font-size: 22px;
+  }
+
+  .coverage-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 25px;
+  }
+
+  .selected-coverage-card {
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .coverage-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .coverage-name {
+    font-size: 13px;
+  }
+
+  .coverage-item {
+    padding: 20px;
+  }
+
+  .coverage-item h5 {
+    font-size: 16px;
+  }
+
+  .coverage-question {
+    padding: 16px;
   }
 
   .form-group {
@@ -146,7 +376,7 @@ select:focus, input:focus {
   }
 }
 
-/* ===== MOBILE RESPONSIVE DESIGN ===== */
+/* ===== MOBILE RESPONSIVE DESIGN (max-width: 768px) ===== */
 @media (max-width: 768px) {
   body {
     padding-top: 20px;
@@ -166,6 +396,91 @@ select:focus, input:focus {
   p {
     font-size: 16px;
     margin-bottom: 20px;
+  }
+
+  .coverage-summary {
+    padding: 15px;
+    margin-bottom: 30px;
+  }
+
+  .coverage-summary h3 {
+    font-size: 20px;
+  }
+
+  .coverage-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .selected-coverage-card {
+    padding: 14px;
+    gap: 8px;
+  }
+
+  .coverage-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+
+  .coverage-name {
+    font-size: 12px;
+  }
+
+  .coverage-info h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .coverage-details {
+    gap: 20px;
+  }
+
+  .coverage-item {
+    padding: 15px;
+  }
+
+  .coverage-item h5 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .coverage-item p {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .coverage-item ul {
+    padding-left: 15px;
+  }
+
+  .coverage-item li {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .coverage-question {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+
+  .coverage-question::before {
+    font-size: 11px;
+    padding: 3px 8px;
+    top: -8px;
+    left: 15px;
+  }
+
+  #coverageSpecificQuestions {
+    margin-top: 30px;
+    padding-top: 20px;
+  }
+
+  #coverageSpecificQuestions h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding: 12px;
   }
 
   .form-group {
