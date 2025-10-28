@@ -37,7 +37,6 @@
   </div>
 
   <script>
-    // Step 3 - Enhanced ID-based coverage selection for main navigation
     document.addEventListener('DOMContentLoaded', function() {
       initializeCoverageSelection();
       loadPreviousSelection();
@@ -46,41 +45,30 @@
     function initializeCoverageSelection() {
       const checkboxes = document.querySelectorAll('input[name="coverage"]');
 
-      // Allow only one checkbox to be checked at a time
       checkboxes.forEach(cb => {
         cb.addEventListener('change', function() {
           if (this.checked) {
-            // Uncheck all other checkboxes
             checkboxes.forEach(other => {
               if (other !== this) other.checked = false;
             });
             
-            // Save the selected ID immediately using multiple methods
             saveSelectedCoverage(this.id);
-            console.log(`✅ Selected coverage: ${this.id}`);
           } else {
-            // If unchecked, clear the selection
             clearSelectedCoverage();
-            console.log('❌ Coverage selection cleared');
           }
         });
       });
     }
 
     function saveSelectedCoverage(checkboxId) {
-      // Method 1: Save to localStorage for Step 4
       localStorage.setItem('selectedCoverage', checkboxId);
       
-      // Method 2: Save to formData for main navigation compatibility
       if (typeof formData !== 'undefined') {
         if (!formData.step3) formData.step3 = {};
         formData.step3.selectedCoverageId = checkboxId;
         formData.step3.selectedCoverageValue = document.getElementById(checkboxId).value;
-        
-        // Also save checkbox states individually for snapping.js compatibility
         formData.step3[checkboxId] = true;
         
-        // Clear other checkbox states
         const allCheckboxes = ['occupationalAccident', 'physicalDamage', 'nonTruckingLiability', 'workersCompensation', 'occupationalCompensation'];
         allCheckboxes.forEach(id => {
           if (id !== checkboxId) {
@@ -89,10 +77,8 @@
         });
       }
       
-      // Method 3: Make globally accessible
       window.selectedCoverageId = checkboxId;
       
-      // Method 4: Trigger main navigation save if available
       if (typeof saveCurrentStepData === 'function') {
         saveCurrentStepData(3);
       }
@@ -105,7 +91,6 @@
         delete formData.step3.selectedCoverageId;
         delete formData.step3.selectedCoverageValue;
         
-        // Clear all checkbox states
         const allCheckboxes = ['occupationalAccident', 'physicalDamage', 'nonTruckingLiability', 'workersCompensation', 'occupationalCompensation'];
         allCheckboxes.forEach(id => {
           formData.step3[id] = false;
@@ -120,7 +105,6 @@
     }
 
     function loadPreviousSelection() {
-      // Try multiple sources to restore selection
       const savedId = localStorage.getItem('selectedCoverage') || 
                      (window.formData?.step3?.selectedCoverageId) ||
                      window.selectedCoverageId;
@@ -129,12 +113,10 @@
         const checkbox = document.getElementById(savedId);
         if (checkbox) {
           checkbox.checked = true;
-          console.log(`🔄 Restored coverage selection: ${savedId}`);
         }
       }
     }
 
-    // Enhanced validation function for main navigation
     window.validateStep3 = function() {
       const selected = document.querySelector('input[name="coverage"]:checked');
       
@@ -143,19 +125,8 @@
         return false;
       }
       
-      // Ensure data is saved before validation passes
       saveSelectedCoverage(selected.id);
-      console.log(`✅ Step 3 validation passed with: ${selected.id}`);
       return true;
-    };
-
-    // Expose debug functions
-    window.debugStep3 = {
-      saveSelectedCoverage,
-      clearSelectedCoverage,
-      loadPreviousSelection,
-      getCurrentSelection: () => document.querySelector('input[name="coverage"]:checked')?.id,
-      getFormData: () => window.formData?.step3
     };
   </script>
 

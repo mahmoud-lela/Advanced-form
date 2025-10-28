@@ -65,89 +65,60 @@
     <script src="../js/snapping.js"></script>
     <script src="../js/required.js"></script>
     <script>
-      // Function to check which coverage was selected in Step 3 and show corresponding data
       function showSelectedCoverageDetails() {
-        console.log('Checking Step 3 coverage selections...');
-        
-        // Get all coverage data elements
         const coverageDataElements = document.querySelectorAll('[id$="-data"]');
         
-        // First, hide all coverage data elements (ensure hidden attribute is applied)
         coverageDataElements.forEach(element => {
           element.classList.remove('selected-coverage');
           element.setAttribute('hidden', '');
           element.style.display = '';
         });
         
-        // Try multiple methods to get the selected coverage from Step 3
-        let selectedCoverageId = null;
-        let step3Data = null;
+        let selectedCoverageId = localStorage.getItem('selectedCoverage');
         
-        // Method 1: Check localStorage for selected coverage
-        selectedCoverageId = localStorage.getItem('selectedCoverage');
-        
-        // Method 2: Check global formData if available
-        if (typeof window.formData !== 'undefined' && window.formData.step3) {
-          step3Data = window.formData.step3;
+        if (!selectedCoverageId && typeof window.formData !== 'undefined' && window.formData.step3) {
+          const step3Data = window.formData.step3;
           
-          // Check for selectedCoverageId
-          if (!selectedCoverageId && step3Data.selectedCoverageId) {
+          if (step3Data.selectedCoverageId) {
             selectedCoverageId = step3Data.selectedCoverageId;
-          }
-          
-          // Also check individual checkbox states
-          const coverageCheckboxes = [
-            'occupationalAccident',
-            'physicalDamage', 
-            'nonTruckingLiability',
-            'workersCompensation',
-            'occupationalCompensation'
-          ];
-          
-          // Find which checkbox is true
-          for (const checkboxId of coverageCheckboxes) {
-            if (step3Data[checkboxId] === true) {
-              selectedCoverageId = checkboxId;
-              break;
+          } else {
+            const coverageCheckboxes = [
+              'occupationalAccident',
+              'physicalDamage', 
+              'nonTruckingLiability',
+              'workersCompensation',
+              'occupationalCompensation'
+            ];
+            
+            for (const checkboxId of coverageCheckboxes) {
+              if (step3Data[checkboxId] === true) {
+                selectedCoverageId = checkboxId;
+                break;
+              }
             }
           }
         }
         
-        // Method 3: Check window.selectedCoverageId
         if (!selectedCoverageId && window.selectedCoverageId) {
           selectedCoverageId = window.selectedCoverageId;
         }
         
-        console.log('Selected coverage ID from Step 3:', selectedCoverageId);
-        console.log('Step 3 data:', step3Data);
-        
-        // Show the selected coverage details
         if (selectedCoverageId) {
           const coverageDataElement = document.getElementById(selectedCoverageId + '-data');
           
           if (coverageDataElement) {
-            // Properly reveal: remove hidden attribute and clear inline display
             coverageDataElement.removeAttribute('hidden');
             coverageDataElement.style.display = '';
             coverageDataElement.classList.add('selected-coverage');
             
-            console.log('✅ Showing coverage details for:', selectedCoverageId);
-            
-            // Add visual feedback
             setTimeout(() => {
               coverageDataElement.scrollIntoView({ 
                 behavior: 'smooth', 
                 block: 'center' 
               });
             }, 200);
-            
-          } else {
-            console.log('❌ Coverage data element not found for:', selectedCoverageId);
           }
         } else {
-          console.log('⚠️ No coverage selection found from Step 3');
-          
-          // Show a message if no selection is found
           const summaryNote = document.querySelector('.summary-note');
           if (summaryNote) {
             summaryNote.innerHTML = 'No coverage selection found. Please go back to Step 3 to select a coverage type.';
@@ -156,113 +127,19 @@
         }
       }
       
-      // Enhanced function to check all checkbox states from Step 3
-      function checkStep3CheckboxStates() {
-        console.log('Checking all Step 3 checkbox states...');
-        
-        const coverageTypes = [
-          'occupationalAccident',
-          'physicalDamage', 
-          'nonTruckingLiability',
-          'workersCompensation',
-          'occupationalCompensation'
-        ];
-        
-        // Check localStorage data
-        const localStorageData = localStorage.getItem('advancedFormData');
-        if (localStorageData) {
-          try {
-            const parsedData = JSON.parse(localStorageData);
-            const step3Data = parsedData.step3;
-            
-            if (step3Data) {
-              console.log('Found Step 3 data in localStorage:', step3Data);
-              
-              // Check each coverage type
-              coverageTypes.forEach(coverageType => {
-                if (step3Data[coverageType] === true) {
-                  console.log(`✅ ${coverageType} is selected (true)`);
-                  
-                  // Show the corresponding data element
-                  const dataElement = document.getElementById(coverageType + '-data');
-                  if (dataElement) {
-                    dataElement.removeAttribute('hidden');
-                    dataElement.style.display = '';
-                    dataElement.classList.add('selected-coverage');
-                  }
-                } else {
-                  console.log(`❌ ${coverageType} is not selected`);
-                }
-              });
-            }
-          } catch (error) {
-            console.error('Error parsing localStorage data:', error);
-          }
-        }
-        
-        // Also check global formData
-        if (typeof window.formData !== 'undefined' && window.formData.step3) {
-          const step3Data = window.formData.step3;
-          console.log('Found Step 3 data in formData:', step3Data);
-          
-          coverageTypes.forEach(coverageType => {
-            if (step3Data[coverageType] === true) {
-              console.log(`✅ ${coverageType} is selected (true) in formData`);
-              
-              const dataElement = document.getElementById(coverageType + '-data');
-              if (dataElement) {
-                dataElement.removeAttribute('hidden');
-                dataElement.style.display = '';
-                dataElement.classList.add('selected-coverage');
-              }
-            }
-          });
-        }
-      }
-      
-      // Initialize when DOM is loaded
       document.addEventListener('DOMContentLoaded', function() {
-        console.log('Step 4 loaded, checking for selected coverage...');
-        
-        // Small delay to ensure data is available from previous step
         setTimeout(() => {
           showSelectedCoverageDetails();
-          checkStep3CheckboxStates();
         }, 100);
       });
       
-      // Listen for storage changes and form data updates
       if (typeof window !== 'undefined') {
         window.addEventListener('storage', function(e) {
           if (e.key === 'selectedCoverage' || e.key === 'advancedFormData') {
-            console.log('Storage changed, updating coverage display...');
             showSelectedCoverageDetails();
-            checkStep3CheckboxStates();
-          }
-        });
-        
-        // Listen for custom events from the form navigation
-        window.addEventListener('stepDataUpdated', function(e) {
-          if (e.detail && e.detail.step === 3) {
-            console.log('Step 3 data updated, refreshing coverage display...');
-            setTimeout(() => {
-              showSelectedCoverageDetails();
-              checkStep3CheckboxStates();
-            }, 50);
           }
         });
       }
-      
-      // Expose functions for debugging
-      window.debugStep4 = {
-        showSelectedCoverageDetails,
-        checkStep3CheckboxStates,
-        getStep3Data: () => {
-          const localStorage = window.localStorage.getItem('advancedFormData');
-          const formData = window.formData?.step3;
-          return { localStorage, formData };
-        }
-      };
     </script>
   </body>
 </html>

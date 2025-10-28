@@ -10,20 +10,6 @@ body {
   color: #2c4373;
 }
 
-/* ===== Base Visibility Classes ===== */
-.hidden {
-  display: none !important;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.visible {
-  display: block !important;
-  opacity: 1;
-  visibility: visible;
-}
-
-/* ===== Coverage Data Sections ===== */
 [id$="-data"] {
   background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
   border: 2px solid #e3f2fd;
@@ -73,7 +59,6 @@ body {
   margin: 0 auto;
   max-width: 800px;
   width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 50px;
 }
 
@@ -230,7 +215,6 @@ select:focus, input:focus {
   border: 2px solid #e74c3c;
 }
 
-/* ===== Coverage Information Styling ===== */
 .coverage-info {
   margin-top: 30px;
 }
@@ -440,7 +424,7 @@ select:focus, input:focus {
 
   .form-container {
     padding: 20px;
-    margin: 15px;
+    margin: auto;
     width: calc(100% - 30px);
     margin-bottom: 30px;
   }
@@ -580,7 +564,7 @@ select:focus, input:focus {
 @media (max-width: 480px) {
   .form-container {
     padding: 15px;
-    margin: 10px;
+    margin: auto;
   }
 
   h2 {

@@ -66,8 +66,8 @@ body {
     }
   
     .form-container {
-      padding: 20px 30px;
-      margin: 15px;
+      
+      margin: auto;
       width: calc(100% - 30px);
       margin-bottom: 30px;
     }
@@ -141,8 +141,8 @@ body {
     }
   
     .form-container {
-      padding: 30px 60px;
-      margin: 20px auto;
+      padding: 51px 44px;
+      margin:  auto;
       max-width: 700px;
       width: 85%;
       margin-bottom: 40px;

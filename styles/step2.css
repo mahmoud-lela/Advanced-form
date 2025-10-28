@@ -17,7 +17,6 @@ body {
   margin: 0 auto;
   max-width: 1200px;
   width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 50px;
 }
 
@@ -360,8 +359,8 @@ select.valid {
   }
 
   .form-container {
-    padding: 20px;
-    margin: 15px;
+
+    margin: auto;
     width: calc(100% - 30px);
   }
 
@@ -440,7 +439,7 @@ select.valid {
 
   .form-container {
     padding: 30px;
-    margin: 20px;
+    margin: auto;
     width: calc(100% - 40px);
     max-width: 900px;
   }
@@ -576,8 +575,8 @@ select.valid {
 
 @media (max-width: 480px) {
   .form-container {
-    padding: 15px;
-    margin: 10px;
+
+    margin: auto;
   }
 
   h2 {
