@@ -67,8 +67,6 @@ textarea:focus {
   border-color: #1f3b73;
 }
 
-
-
 input:invalid:focus,
 select:invalid:focus {
   border-color: #e74c3c;
@@ -176,6 +174,63 @@ select:invalid ~ .required-text {
   box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.1);
 }
 
+/* ===== Error Styling for Required Fields ===== */
+.input-container input.error,
+.input-container select.error {
+  border-color: #e74c3c !important;
+  background-color: #fdf2f2 !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+}
+
+.input-container input.error:focus,
+.input-container select.error:focus {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+}
+
+/* ===== Error Message Styling ===== */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Enhanced Error Styling ===== */
+.input-container input.error,
+.input-container select.error {
+  border-color: #e74c3c !important;
+  background-color: #fdf2f2 !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.input-container input.error:focus,
+.input-container select.error:focus {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25) !important;
+}
+
+/* ===== Success State for Valid Fields ===== */
+.input-container input.valid,
+.input-container select.valid {
+  border-color: #27ae60 !important;
+  background-color: #f8fff9 !important;
+}
+
 /* ===== CDL State Specific Styling ===== */
 #cdlState {
   display: flex;
@@ -199,4 +254,180 @@ select:invalid ~ .required-text {
   border-color: #0073e6;
   background-color: #fff;
   box-shadow: 0 0 0 2px rgba(0, 115, 230, 0.1);
+}
+
+/* ===== MOBILE RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .target {
+    margin: 10px;
+    padding: 20px;
+  }
+
+  .step-1-header {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .step-1-text {
+    font-size: 16px;
+    margin-bottom: 30px;
+    padding: 0 10px;
+  }
+
+  .form-container {
+    margin: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-row .form-group.half {
+    flex: none;
+  }
+
+  .phone-input {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .checkbox-group {
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+
+  .checkbox-group label {
+    font-size: 0.9rem;
+  }
+
+  .other-input {
+    width: 100px;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+
+  .input-container input,
+  .input-container select {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .suggestion-list {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .validation-icon {
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+  }
+  
+  .fab {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .fab-save {
+    bottom: 120px;
+    right: 15px;
+  }
+  
+  .fab-help {
+    bottom: 70px;
+    right: 15px;
+  }
+  
+  .keyboard-hint {
+    display: none; /* Hide on mobile */
+  }
+  
+  .tooltip .tooltip-text {
+    width: 150px;
+    margin-left: -75px;
+    font-size: 12px;
+  }
+}
+
+/* ===== TABLET RESPONSIVE DESIGN (max-width: 1200px) ===== */
+@media (max-width: 1200px) {
+  .target {
+    margin: 15px;
+    padding: 40px;
+  }
+
+  .step-1-header {
+    font-size: 42px;
+    margin-bottom: 30px;
+  }
+
+  .step-1-text {
+    font-size: 18px;
+    margin-bottom: 35px;
+    padding: 0 20px;
+  }
+
+  .form-container {
+    margin: 50px;
+  }
+
+  .form-row {
+    gap: 20px;
+  }
+
+  .phone-input {
+    gap: 4rem;
+  }
+
+  .checkbox-group {
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .checkbox-group label {
+    font-size: 0.92rem;
+  }
+
+  .other-input {
+    width: 110px;
+    margin-left: 0.3rem;
+  }
+
+  .input-container input,
+  .input-container select {
+    padding: 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .validation-icon {
+    right: 10px;
+    width: 19px;
+    height: 19px;
+    font-size: 15px;
+  }
+
+  .fab {
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
+
+  .fab-save {
+    bottom: 130px;
+    right: 18px;
+  }
+
+  .fab-help {
+    bottom: 75px;
+    right: 18px;
+  }
+
+  .tooltip .tooltip-text {
+    width: 180px;
+    margin-left: -90px;
+    font-size: 13px;
+  }
 }

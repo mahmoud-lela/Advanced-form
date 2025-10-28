@@ -4,7 +4,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   padding-top: 50px;
   color: #2c4373;
@@ -15,9 +15,10 @@ body {
   padding: 40px;
   border-radius: 10px;
   margin: 0 auto;
-  margin: 0px 35px;
   max-width: 1200px;
-  padding: 0 85px;
+  width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;
 }
 
 h2 {
@@ -257,4 +258,362 @@ button:hover {
   /* Unit Number */
   grid-column: 3 / 5;
   grid-row: 4;
+}
+
+/* Hidden input fields styling */
+.hidden-input {
+  margin: 20px 0;
+  width: 100%;
+  max-width: 500px;
+  display: none; /* Hidden by default */
+}
+
+.hidden-input.show {
+  display: flex; /* Show when this class is added */
+}
+
+.hidden-input input {
+  width: 100%;
+}
+
+.hidden-input label {
+  /* Override the absolute positioning for hidden inputs */
+  position: absolute;
+  left: 15px;
+  top: 30%;
+  transform: translateY(-30%);
+  background-color: transparent;
+  color: #2c4373;
+  font-size: 16px;
+  font-weight: 400;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 1;
+  padding: 0 5px;
+}
+
+.hidden-input input:focus + label,
+.hidden-input input:not(:placeholder-shown) + label,
+.hidden-input input:valid + label {
+  top: -8px;
+  left: 15px;
+  font-size: 12px;
+  color: #3b82f6;
+  background-color: white;
+  padding: 0 5px;
+  font-weight: 500;
+}
+
+/* ===== Error Message Styling ===== */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Enhanced Error Styling ===== */
+.input-container input.error,
+.input-container select.error,
+input.error,
+select.error {
+  border-color: #e74c3c !important;
+  background-color: #fdf2f2 !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.input-container input.error:focus,
+.input-container select.error:focus,
+input.error:focus,
+select.error:focus {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25) !important;
+}
+
+/* ===== Success State for Valid Fields ===== */
+.input-container input.valid,
+.input-container select.valid,
+input.valid,
+select.valid {
+  border-color: #27ae60 !important;
+  background-color: #f8fff9 !important;
+}
+
+/* ===== MOBILE RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  body {
+    padding-top: 20px;
+  }
+
+  .form-container {
+    padding: 20px;
+    margin: 15px;
+    width: calc(100% - 30px);
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  .form-container p {
+    font-size: 16px;
+    margin-bottom: 25px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+
+  /* Reset all grid items to single column */
+  .form-grid .form-group {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  input,
+  select {
+    height: 50px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  .checkbox-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .checkbox-group p {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .checkbox-vote {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .checkbox-group label {
+    font-size: 14px;
+  }
+
+  .hidden-input {
+    margin: 15px 0;
+    max-width: 100%;
+  }
+
+  .hidden-input input {
+    height: 50px;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* ===== TABLET RESPONSIVE DESIGN (max-width: 1200px) ===== */
+@media (max-width: 1200px) {
+  body {
+    padding-top: 30px;
+  }
+
+  .form-container {
+    padding: 30px;
+    margin: 20px;
+    width: calc(100% - 40px);
+    max-width: 900px;
+  }
+
+  h2 {
+    font-size: 40px;
+  }
+
+  .form-container p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+  }
+
+  /* Adjust grid layout for tablet */
+  .form-grid .form-group:nth-child(1) {
+    /* Prefix */
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .form-grid .form-group:nth-child(2) {
+    /* First Name */
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .form-grid .form-group:nth-child(3) {
+    /* Last Name */
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .form-grid .form-group:nth-child(4) {
+    /* Middle Name */
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .form-grid .form-group:nth-child(5) {
+    /* Address */
+    grid-column: 1 / 3;
+    grid-row: 3;
+  }
+
+  .form-grid .form-group:nth-child(6) {
+    /* APT/Suite */
+    grid-column: 1 / 3;
+    grid-row: 4;
+  }
+
+  .form-grid .form-group:nth-child(7) {
+    /* City */
+    grid-column: 1;
+    grid-row: 5;
+  }
+
+  .form-grid .form-group:nth-child(8) {
+    /* State */
+    grid-column: 2;
+    grid-row: 5;
+  }
+
+  .form-grid .form-group:nth-child(9) {
+    /* Zip */
+    grid-column: 1 / 3;
+    grid-row: 6;
+  }
+
+  .form-grid .form-group:nth-child(10) {
+    /* Motor Carrier Name */
+    grid-column: 1 / 3;
+    grid-row: 7;
+  }
+
+  .form-grid .form-group:nth-child(11) {
+    /* Unit Number */
+    grid-column: 1 / 3;
+    grid-row: 8;
+  }
+
+  input,
+  select {
+    height: 52px;
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  .checkbox-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 25px 0;
+  }
+
+  .checkbox-group p {
+    margin-bottom: 15px;
+    font-size: 17px;
+  }
+
+  .checkbox-vote {
+    flex-direction: row;
+    gap: 25px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .checkbox-group label {
+    font-size: 15px;
+  }
+
+  .hidden-input {
+    margin: 18px 0;
+    max-width: 100%;
+  }
+
+  .hidden-input input {
+    height: 52px;
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .form-container p {
+    font-size: 14px;
+  }
+
+  .form-grid {
+    gap: 12px;
+  }
+
+  input,
+  select {
+    height: 45px;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  label {
+    font-size: 12px;
+  }
+
+  .checkbox-group p {
+    font-size: 14px;
+  }
+
+  .checkbox-group label {
+    font-size: 13px;
+  }
+
+  .checkbox-group input[type="checkbox"],
+  .checkbox-group input[type="radio"] {
+    width: 16px;
+    height: 16px;
+  }
 }

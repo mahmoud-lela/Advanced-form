@@ -24,83 +24,87 @@
 
           <div class="form-group">
             <input type="text" id="firstName" required />
-            <label  for="firstName">First Name</label>
+            <label for="firstName">First Name</label>
           </div>
 
           <div class="form-group">
             <input type="text" id="lastName" required />
-            <label  for="lastName">Last Name</label>
+            <label for="lastName">Last Name</label>
           </div>
 
           <div class="form-group">
             <input type="text" id="middleName" />
-            <label  for="middleName">Middle Name</label>
+            <label for="middleName">Middle Name</label>
           </div>
 
           <div class="form-group">
             <input type="text" id="address" required />
-            <label  for="address">Address</label>
+            <label for="address">Address</label>
           </div>
 
           <div class="form-group">
             <input type="text" id="aptSuite" />
-            <label  for="aptSuite">APT/Suite</label>
+            <label for="aptSuite">APT/Suite</label>
           </div>
 
           <div class="form-group">
-            <input type="text" id="city" />
-            <label  for="city">City</label>
+            <input type="text" id="city" required />
+            <label for="city">City</label>
           </div>
 
           <div class="form-group">
-            <input type="text" id="state" />
-            <label  for="state">State</label>
+            <input type="text" id="state" required />
+            <label for="state">State</label>
           </div>
 
           <div class="form-group">
-            <input type="text" id="zip" />
-            <label  for="zip">Zip</label>
+            <input type="text" id="zip" required />
+            <label for="zip">Zip</label>
           </div>
 
           <div class="form-group">
-            <input type="text" id="motorCarrierName" />
-            <label  for="motorCarrierName">Motor Carrier Name</label>
+            <input type="text" id="motorCarrierName" required />
+            <label for="motorCarrierName">Motor Carrier Name</label>
           </div>
 
           <div class="form-group">
             <input type="text" id="unitNumber" />
-            <label  for="unitNumber">Unit Number</label>
+            <label for="unitNumber">Unit Number</label>
           </div>
         </div>
 
         <div class="checkbox-group">
           <p>You are an/a</p>
           <div class="checkbox-vote">
-          <label class="floating-label"><input type="checkbox" name="role" value="Owner Operator" /> Owner
-            Operator</label
-          >
-          <label class="floating-label"
-            ><input type="checkbox" name="role" value="Fleet Owner" /> Fleet
-            Owner</label
-          >
-          <label 
-            ><input type="checkbox" name="role" value="Fleet Driver" /> Fleet
-            Driver</label
-          >
+            <label><input type="checkbox" name="role" value="Owner Operator" checked /> Owner Operator</label>
+            <label><input type="checkbox" name="role" value="Fleet Owner" /> Fleet Owner</label>
+            <label><input type="checkbox" name="role" value="Fleet Driver" id="fleetDriverCheckbox" /> Fleet Driver</label>
+          </div>
         </div>
+
+        <!-- Hidden input for Fleet Driver details -->
+        <div class="form-group hidden-input" id="fleetDriverDetails">
+          <input type="text" id="fleetDriverInfo" />
+          <label for="fleetDriverInfo">Identify the fleet owner you drive for</label>
         </div>
 
         <div class="checkbox-group">
-          
           <p>Do you own your own company?</p>
-        
-        <div class="checkbox-vote">
-          <label><input type="radio" name="company" value="Yes" /> Yes</label>
-          <label
-            ><input type="radio" name="company" value="No" checked /> No</label>
+          <div class="checkbox-vote">
+            <label><input type="radio" name="company" value="Yes" id="companyYes" /> Yes</label>
+            <label><input type="radio" name="company" value="No" id="companyNo" checked /> No</label>
           </div>
+        </div>
+
+        <!-- Hidden input for company name -->
+        <div class="form-group hidden-input" id="companyNameDetails">
+          <input type="text" id="companyName" />
+          <label for="companyName">Enter name here</label>
         </div>
       </form>
     </div>
+
+    <!-- Use external JavaScript file -->
+    <script src="../js/snapping.js"></script>
   </body>
 </html>

@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles/step1.css" />
-
+    <title>Advanced Form - Step 1</title>
+    <link rel="stylesheet" href="/styles/step1.css" />
   </head>
   <body>
     <form id="multiForm">
@@ -15,106 +15,103 @@
         back to what's important.
       </h3>
 
-
-  <div class="form-container">
-    <form id="contactForm">
-      <div class="form-group">
-        <div class="input-container">
-          <input type="email" id="email" name="email" required />
-          <label for="email" class="floating-label">Email Address</label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="input-container">
-          <input type="text" id="haul" name="haul" required />
-          <label for="haul" class="floating-label">What do you haul?</label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="phone-input">
-          <div class="input-container">
-            <input type="tel" id="phone1" name="phone1" required />
-            <label for="phone1" class="floating-label">Phone 1</label>
+      <div class="form-container">
+        <form id="contactForm">
+          <div class="form-group">
+            <div class="input-container">
+              <input type="email" id="email" name="email" required />
+              <label for="email" class="floating-label">Email Address</label>
+            </div>
           </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="phone1-type" value="home" checked> Home</label>
-            <label><input type="checkbox" name="phone1-type" value="cell"> Cell</label>
-            <label><input type="checkbox" name="phone1-type" value="other"> Other</label>
-            <input type="text" class="other-input" name="phone1-other" placeholder="Specify..." />
-          </div>
-        </div>
-      </div>
 
-      <div class="form-group">
-        <div class="phone-input">
-          <div class="input-container">
-            <input type="tel" id="phone2" name="phone2" />
-            <label for="phone2" class="floating-label">Phone 2 (Optional)</label>
+          <div class="form-group">
+            <div class="input-container">
+              <input type="text" id="haul" name="haul" required />
+              <label for="haul" class="floating-label">What do you haul?</label>
+            </div>
           </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="phone2-type" value="home" checked> Home</label>
-            <label><input type="checkbox" name="phone2-type" value="cell"> Cell</label>
-            <label><input type="checkbox" name="phone2-type" value="other"> Other</label>
-            <input type="text" class="other-input" name="phone2-other" placeholder="Specify..." />
-          </div>
-        </div>
-      </div>
 
-      <div class="form-group">
-        <div class="input-container">
-          <input type="date" id="birthday" name="birthday" required />
-          <label for="birthday" class="floating-label">Date of Birth</label>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="input-container">
-          <input type="text" id="cdlNumber" name="cdlNumber" required />
-          <label for="cdlNumber" class="floating-label">CDL Number</label>
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group half">
-          <div class="input-container">
-            <select id="cdlState" name="cdlState" required>
-              <option value=""></option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
-            </select>
-            <label for="cdlState" class="floating-label">CDL State</label>
+          <div class="form-group">
+            <div class="phone-input">
+              <div class="input-container">
+                <input type="tel" id="phone1" name="phone1" required />
+                <label for="phone1" class="floating-label">Phone 1</label>
+              </div>
+              <div class="checkbox-group">
+                <label><input type="checkbox" name="phone1-type" value="home" checked> Home</label>
+                <label><input type="checkbox" name="phone1-type" value="cell"> Cell</label>
+                <label><input type="checkbox" name="phone1-type" value="other"> Other</label>
+                <input type="text" class="other-input" name="phone1-other" placeholder="Specify..." />
+              </div>
+            </div>
           </div>
-        </div>
-      
-        <div class="form-group half">
-          <div class="input-container">
-            <input type="text" id="ssn" name="ssn" required />
-            <label for="ssn" class="floating-label">Social Security Number</label>
+
+          <div class="form-group">
+            <div class="phone-input">
+              <div class="input-container">
+                <input type="tel" id="phone2" name="phone2" />
+                <label for="phone2" class="floating-label">Phone 2 (Optional)</label>
+              </div>
+              <div class="checkbox-group">
+                <label><input type="checkbox" name="phone2-type" value="home" checked> Home</label>
+                <label><input type="checkbox" name="phone2-type" value="cell"> Cell</label>
+                <label><input type="checkbox" name="phone2-type" value="other"> Other</label>
+                <input type="text" class="other-input" name="phone2-other" placeholder="Specify..." />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="input-container">
-          <input type="text" id="fein" name="fein" required />
-          <label for="fein" class="floating-label">FEIN or State Tax ID</label>
-        </div>
-      </div>
-      
-    </form>
-  </div>
 
+          <div class="form-group">
+            <div class="input-container">
+              <input type="date" id="birthday" name="birthday" required />
+              <label for="birthday" class="floating-label">Date of Birth</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="input-container">
+              <input type="text" id="cdlNumber" name="cdlNumber" required />
+              <label for="cdlNumber" class="floating-label">CDL Number</label>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group half">
+              <div class="input-container">
+                <select id="cdlState" name="cdlState" required>
+                  <option value=""></option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                </select>
+                <label for="cdlState" class="floating-label">CDL State</label>
+              </div>
+            </div>
+          
+            <div class="form-group half">
+              <div class="input-container">
+                <input type="text" id="ssn" name="ssn" required />
+                <label for="ssn" class="floating-label">Social Security Number</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="input-container">
+              <input type="text" id="fein" name="fein" required />
+              <label for="fein" class="floating-label">FEIN or State Tax ID</label>
+            </div>
+          </div>
 
+        </form>
+      </div>
     </form>
   </body>
 </html>

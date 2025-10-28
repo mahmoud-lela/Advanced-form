@@ -1,6 +1,134 @@
-<h2>magnon</h2>
-<p>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad qui, aliquam
-  voluptate minus eveniet error et, laborum aut ipsa rerum, animi aspernatur
-  harum! Quis voluptate maxime unde iure nesciunt repudiandae.
-</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Step 5 - Terms and Conditions</title>
+    <link rel="stylesheet" href="../styles/step5.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Step 5 - Terms and Conditions</h2>
+      <p>
+        Please review the terms and conditions below before submitting your
+        application.
+      </p>
+
+      <div class="terms-container">
+        <label for="termsAndConditions" class="terms-label">Terms and Conditions Document</label>
+        <textarea id="termsAndConditions" readonly title="Terms and Conditions" aria-label="Terms and Conditions">
+TRANSGUARD INSURANCE SERVICES
+TERMS AND CONDITIONS
+
+1. APPLICATION ACCEPTANCE
+By submitting this application, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. This application does not guarantee coverage and is subject to underwriting approval.
+
+2. ACCURACY OF INFORMATION
+You warrant that all information provided in this application is true, complete, and accurate to the best of your knowledge. Any misrepresentation or omission of material facts may result in denial of coverage or cancellation of your policy.
+
+3. COVERAGE DETAILS
+- Occupational Accident Insurance provides coverage for medical expenses and disability benefits related to work-related injuries
+- Physical Damage coverage protects your commercial vehicle against collision, comprehensive, and other physical damages
+- Non-Trucking Liability provides protection when operating under your own authority
+- Workers Compensation and Occupational Compensation provide employee protection as required by law
+
+4. PREMIUM PAYMENTS
+Premiums are due as specified in your policy documents. Failure to pay premiums when due may result in policy cancellation. A grace period may be provided as outlined in your policy terms.
+
+5. CLAIMS REPORTING
+All accidents, injuries, or incidents must be reported to TransGuard within 24 hours or as soon as reasonably possible. Failure to report claims timely may result in denial of coverage.
+
+6. UNDERWRITING PROCESS
+Your application will be subject to underwriting review, which may include:
+- Motor Vehicle Record (MVR) checks
+- Background verification
+- Financial review
+- Vehicle inspection requirements
+- Additional documentation requests
+
+7. POLICY EFFECTIVE DATE
+Coverage will not be effective until:
+- Application approval by underwriting
+- Payment of required premiums
+- Completion of all underwriting requirements
+- Issuance of policy documents
+
+8. CANCELLATION TERMS
+Either party may cancel this policy with proper notice as outlined in the policy terms. Cancellation may result in premium adjustments and return premiums as applicable.
+
+9. DISPUTE RESOLUTION
+Any disputes arising from this application or resulting policy shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association.
+
+10. PRIVACY POLICY
+TransGuard Insurance Services is committed to protecting your privacy. Personal information collected will be used solely for underwriting, policy administration, and claims processing purposes.
+
+11. REGULATORY COMPLIANCE
+This insurance coverage is subject to all applicable federal, state, and local laws and regulations governing commercial transportation and insurance.
+
+12. MODIFICATIONS
+These terms may only be modified in writing and signed by an authorized representative of TransGuard Insurance Services.
+
+13. GOVERNING LAW
+This agreement shall be governed by the laws of the state where the policy is issued.
+
+By checking the acceptance box below and submitting this application, you acknowledge that you have read, understood, and agree to these Terms and Conditions.
+
+Last Updated: October 2025
+TransGuard Insurance Services - Protecting Your Business, Mile by Mile
+      </textarea>
+      </div>
+
+      <div class="acceptance-section">
+        <div class="checkbox-container">
+          <input type="checkbox" id="termsAccepted" name="termsAccepted" required>
+          <label for="termsAccepted">
+            I have read, understood, and agree to the Terms and Conditions above
+          </label>
+        </div>
+      </div>
+
+      <div class="signature-section">
+        <h3>Application Signature</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="signature">Applicant Signature</label>
+            <input type="text" id="signature" name="signature" placeholder="Enter your full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="signatureDate">Date</label>
+            <input type="date" id="signatureDate" name="signatureDate" title="Signature Date" required>
+          </div>
+  
+          <div class="form-group">
+            <label for="motorCarrierLocation">Motor Carrier Name/Terminal Location</label>
+            <input type="text" id="motorCarrierLocation" name="motorCarrierLocation" placeholder="Auto-populated from form data" readonly>
+          </div>
+          
+          <div class="form-group">
+            <label for="unitNumber">Unit Number</label>
+            <input type="text" id="unitNumber" name="unitNumber" placeholder="Auto-populated from form data" readonly>
+          </div>
+        </div>
+      </div>
+      
+      <div class="review-section">
+        <h3>Application Summary</h3>
+        <div id="reviewContent">
+          <p>Thank you for completing your TransGuard QuickApp application!</p>
+          <p>Please review all the information you've provided and ensure you have accepted the terms and conditions before submitting.</p>
+        </div>
+      </div>
+      
+      <div class="submit-section">
+        <button type="button" id="finalSubmit" class="submit-btn" disabled>
+          Submit Application
+        </button>
+      </div>
+    </div>
+    
+    <!-- Include JavaScript files -->
+    <script src="../js/snapping.js"></script>
+    <script src="../js/required.js"></script>
+  </body>
+</html>

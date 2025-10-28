@@ -3,48 +3,179 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
     margin: 0;
-    padding-top: 60px;
+    padding-top: 50px;
     color: #2c4373;
   }
   
   .form-container {
     background: white;
     border-radius: 10px;
-    padding: 0px 80px;
+    padding: 40px 80px;
     text-align: center;
-    margin: 30px 60px;
+    margin: 0 auto;
+    max-width: 800px;
+    width: 90%;
+    margin-bottom: 50px;
   }
   
   h2 {
     margin-bottom: 10px;
-    font-size: 80px;
+    font-size: 48px;
+    color: #2c4373;
+    font-weight: bold;
   }
   
   p {
-    font-size: 17px;
-    margin-bottom: 25px;
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #2c4373;
   }
   
   .checkbox-list {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 15px;
     font-size: 16px;
+    margin-bottom: 30px;
   }
   
   .checkbox-list label {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    cursor: pointer;
+    color: #2c4373;
+    font-weight: 500;
   }
   
   input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    accent-color: #1a4e8a;
+    accent-color: #2c4373;
     cursor: pointer;
+  }
+
+  /* ===== MOBILE RESPONSIVE DESIGN ===== */
+  @media (max-width: 768px) {
+    body {
+      padding-top: 20px;
+    }
+  
+    .form-container {
+      padding: 20px 30px;
+      margin: 15px;
+      width: calc(100% - 30px);
+      margin-bottom: 30px;
+    }
+  
+    h2 {
+      font-size: 32px;
+    }
+  
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  
+    .checkbox-list {
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+  
+    .checkbox-list label {
+      gap: 15px;
+      font-size: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+  
+    .checkbox-list label:hover {
+      background-color: #f0f9ff;
+    }
+  
+    input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .form-container {
+      padding: 15px 20px;
+      margin: 10px;
+    }
+  
+    h2 {
+      font-size: 24px;
+    }
+  
+    p {
+      font-size: 14px;
+    }
+  
+    .checkbox-list {
+      gap: 15px;
+    }
+  
+    .checkbox-list label {
+      gap: 12px;
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  /* ===== TABLET RESPONSIVE DESIGN (max-width: 1200px) ===== */
+  @media (max-width: 1200px) {
+    body {
+      padding-top: 30px;
+    }
+  
+    .form-container {
+      padding: 30px 60px;
+      margin: 20px auto;
+      max-width: 700px;
+      width: 85%;
+      margin-bottom: 40px;
+    }
+  
+    h2 {
+      font-size: 40px;
+    }
+  
+    p {
+      font-size: 17px;
+      margin-bottom: 25px;
+    }
+  
+    .checkbox-list {
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+  
+    .checkbox-list label {
+      gap: 14px;
+      font-size: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+  
+    .checkbox-list label:hover {
+      background-color: #f0f9ff;
+    }
+  
+    input[type="checkbox"] {
+      width: 21px;
+      height: 21px;
+    }
   }
