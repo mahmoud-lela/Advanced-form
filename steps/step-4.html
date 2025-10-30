@@ -11,7 +11,7 @@
       <h2>Step 4</h2>
       <p>Additional information and requirements.</p>
 
-      <!-- Coverage Selection Summary -->
+      
       <div class="coverage-summary">
         <h3>Your Selected Coverage Types</h3>
         <p class="summary-note">
@@ -61,85 +61,8 @@
 
     </div>
 
-    <!-- Include JavaScript files -->
+    
     <script src="../js/snapping.js"></script>
     <script src="../js/required.js"></script>
-    <script>
-      function showSelectedCoverageDetails() {
-        const coverageDataElements = document.querySelectorAll('[id$="-data"]');
-        
-        coverageDataElements.forEach(element => {
-          element.classList.remove('selected-coverage');
-          element.setAttribute('hidden', '');
-          element.style.display = '';
-        });
-        
-        let selectedCoverageId = localStorage.getItem('selectedCoverage');
-        
-        if (!selectedCoverageId && typeof window.formData !== 'undefined' && window.formData.step3) {
-          const step3Data = window.formData.step3;
-          
-          if (step3Data.selectedCoverageId) {
-            selectedCoverageId = step3Data.selectedCoverageId;
-          } else {
-            const coverageCheckboxes = [
-              'occupationalAccident',
-              'physicalDamage', 
-              'nonTruckingLiability',
-              'workersCompensation',
-              'occupationalCompensation'
-            ];
-            
-            for (const checkboxId of coverageCheckboxes) {
-              if (step3Data[checkboxId] === true) {
-                selectedCoverageId = checkboxId;
-                break;
-              }
-            }
-          }
-        }
-        
-        if (!selectedCoverageId && window.selectedCoverageId) {
-          selectedCoverageId = window.selectedCoverageId;
-        }
-        
-        if (selectedCoverageId) {
-          const coverageDataElement = document.getElementById(selectedCoverageId + '-data');
-          
-          if (coverageDataElement) {
-            coverageDataElement.removeAttribute('hidden');
-            coverageDataElement.style.display = '';
-            coverageDataElement.classList.add('selected-coverage');
-            
-            setTimeout(() => {
-              coverageDataElement.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-              });
-            }, 200);
-          }
-        } else {
-          const summaryNote = document.querySelector('.summary-note');
-          if (summaryNote) {
-            summaryNote.innerHTML = 'No coverage selection found. Please go back to Step 3 to select a coverage type.';
-            summaryNote.style.color = '#ff6b6b';
-          }
-        }
-      }
-      
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
-          showSelectedCoverageDetails();
-        }, 100);
-      });
-      
-      if (typeof window !== 'undefined') {
-        window.addEventListener('storage', function(e) {
-          if (e.key === 'selectedCoverage' || e.key === 'advancedFormData') {
-            showSelectedCoverageDetails();
-          }
-        });
-      }
-    </script>
   </body>
 </html>

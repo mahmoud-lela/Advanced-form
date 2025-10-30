@@ -179,6 +179,12 @@ function loadSnippet(number) {
             }
             
             loadStepData(number);
+            
+            // Dispatch custom event for step-specific initialization
+            const stepLoadedEvent = new CustomEvent('stepLoaded', { 
+              detail: { step: number } 
+            });
+            window.dispatchEvent(stepLoadedEvent);
         })
         .catch(error => {
             console.error('Error loading snippet:', error);
@@ -217,7 +223,7 @@ function updateUI() {
     
     if (currentStep === totalSteps) {
       if (nextBtn) nextBtn.style.display = 'none';
-      if (submitBtn) submitBtn.style.display = 'inline-block';
+      if (submitBtn) nextBtn.style.display = 'inline-block';
     } else {
       if (nextBtn) nextBtn.style.display = 'inline-block';
       if (submitBtn) nextBtn.style.display = 'none';
@@ -532,5 +538,180 @@ document.addEventListener('DOMContentLoaded', function() {
 if (steps.length > 0) {
   updateUI();
 }
+
+// ===== STEP 3 COVERAGE SELECTION =====
+
+function initializeCoverageSelection() {
+  const checkboxes = document.querySelectorAll('input[name="coverage"]');
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', function() {
+      if (this.checked) {
+        checkboxes.forEach(other => {
+          if (other !== this) other.checked = false;
+        });
+        
+        saveSelectedCoverage(this.id);
+      } else {
+        clearSelectedCoverage();
+      }
+    });
+  });
+}
+
+function saveSelectedCoverage(checkboxId) {
+  localStorage.setItem('selectedCoverage', checkboxId);
+  
+  if (typeof formData !== 'undefined') {
+    if (!formData.step3) formData.step3 = {};
+    formData.step3.selectedCoverageId = checkboxId;
+    formData.step3.selectedCoverageValue = document.getElementById(checkboxId).value;
+    formData.step3[checkboxId] = true;
+    
+    const allCheckboxes = ['occupationalAccident', 'physicalDamage', 'nonTruckingLiability', 'workersCompensation', 'occupationalCompensation'];
+    allCheckboxes.forEach(id => {
+      if (id !== checkboxId) {
+        formData.step3[id] = false;
+      }
+    });
+  }
+  
+  window.selectedCoverageId = checkboxId;
+  
+  if (typeof saveCurrentStepData === 'function') {
+    saveCurrentStepData(3);
+  }
+}
+
+function clearSelectedCoverage() {
+  localStorage.removeItem('selectedCoverage');
+  
+  if (typeof formData !== 'undefined' && formData.step3) {
+    delete formData.step3.selectedCoverageId;
+    delete formData.step3.selectedCoverageValue;
+    
+    const allCheckboxes = ['occupationalAccident', 'physicalDamage', 'nonTruckingLiability', 'workersCompensation', 'occupationalCompensation'];
+    allCheckboxes.forEach(id => {
+      formData.step3[id] = false;
+    });
+  }
+  
+  window.selectedCoverageId = null;
+  
+  if (typeof saveCurrentStepData === 'function') {
+    saveCurrentStepData(3);
+  }
+}
+
+function loadPreviousSelection() {
+  const savedId = localStorage.getItem('selectedCoverage') || 
+                 (window.formData?.step3?.selectedCoverageId) ||
+                 window.selectedCoverageId;
+  
+  if (savedId) {
+    const checkbox = document.getElementById(savedId);
+    if (checkbox) {
+      checkbox.checked = true;
+    }
+  }
+}
+
+window.validateStep3 = function() {
+  const selected = document.querySelector('input[name="coverage"]:checked');
+  
+  if (!selected) {
+    alert('Please select one coverage option before continuing!');
+    return false;
+  }
+  
+  saveSelectedCoverage(selected.id);
+  return true;
+};
+
+// ===== STEP 4 COVERAGE DISPLAY =====
+
+function showSelectedCoverageDetails() {
+  const coverageDataElements = document.querySelectorAll('[id$="-data"]');
+  
+  coverageDataElements.forEach(element => {
+    element.classList.remove('selected-coverage');
+    element.setAttribute('hidden', '');
+    element.style.display = '';
+  });
+  
+  let selectedCoverageId = localStorage.getItem('selectedCoverage');
+  
+  if (!selectedCoverageId && typeof window.formData !== 'undefined' && window.formData.step3) {
+    const step3Data = window.formData.step3;
+    
+    if (step3Data.selectedCoverageId) {
+      selectedCoverageId = step3Data.selectedCoverageId;
+    } else {
+      const coverageCheckboxes = [
+        'occupationalAccident',
+        'physicalDamage', 
+        'nonTruckingLiability',
+        'workersCompensation',
+        'occupationalCompensation'
+      ];
+      
+      for (const checkboxId of coverageCheckboxes) {
+        if (step3Data[checkboxId] === true) {
+          selectedCoverageId = checkboxId;
+          break;
+        }
+      }
+    }
+  }
+  
+  if (!selectedCoverageId && window.selectedCoverageId) {
+    selectedCoverageId = window.selectedCoverageId;
+  }
+  
+  if (selectedCoverageId) {
+    const coverageDataElement = document.getElementById(selectedCoverageId + '-data');
+    
+    if (coverageDataElement) {
+      coverageDataElement.removeAttribute('hidden');
+      coverageDataElement.style.display = '';
+      coverageDataElement.classList.add('selected-coverage');
+      
+      setTimeout(() => {
+        coverageDataElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }, 200);
+    }
+  } else {
+    const summaryNote = document.querySelector('.summary-note');
+    if (summaryNote) {
+      summaryNote.innerHTML = 'No coverage selection found. Please go back to Step 3 to select a coverage type.';
+      summaryNote.style.color = '#ff6b6b';
+    }
+  }
+}
+
+// Initialize step-specific functionality when snippet loads
+window.addEventListener('stepLoaded', function(e) {
+  const stepNumber = e.detail?.step;
+  
+  if (stepNumber === 3) {
+    initializeCoverageSelection();
+    loadPreviousSelection();
+  }
+  
+  if (stepNumber === 4) {
+    setTimeout(() => {
+      showSelectedCoverageDetails();
+    }, 100);
+    
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'selectedCoverage' || e.key === 'advancedFormData') {
+        showSelectedCoverageDetails();
+      }
+    });
+  }
+});
 
 
